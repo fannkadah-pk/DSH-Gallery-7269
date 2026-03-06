@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSH Gallery - ID Info</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .id-info-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+        }
+
+        .id-info-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+
+        .info-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--hover-bg);
+            border-radius: 8px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-weight: 600;
+            color: var(--text-primary);
+            min-width: 120px;
+        }
+
+        .info-value {
+            flex: 1;
+            color: var(--text-secondary);
+            word-break: break-all;
+        }
+
+        .password-field {
+            position: relative;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .edit-btn {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-left: 10px;
+        }
+
+        .edit-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .change-password-section {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--hover-bg);
+            border-radius: 8px;
+            display: none;
+        }
+
+        .change-password-section.show {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            background: var(--input-bg);
+            color: var(--text-primary);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .login-btn, .logout-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+
+        .login-btn {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .login-btn:hover {
+            background: var(--primary-hover);
+        }
+
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .logout-btn:hover {
+            background: #c82333;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .change-password-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .change-password-btn:hover {
+            background: #218838;
+        }
+
+        .cancel-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+
+        .cancel-btn:hover {
+            background: #545b62;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="logo">
+                <i class=""><img src="assets/DSH Logo/D_S_H_001.2.2_2-.png" alt="Logo" height="40"></i>
+                <span>DSH Gallery</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="trash.html"><i class="fas fa-trash"></i> Trash</a></li>
+                <li><a href="id-info.html" class="active"><i class="fas fa-id-card"></i> ID Info</a></li>
+            </ul>
+            <div class="user-icon">
+                <i class="fas fa-user"></i> Admin
+            </div>
+            <div class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="id-info-container">
+            <h1 class="id-info-header"><i class="fas fa-id-card"></i> User ID Information</h1>
+
+            <div id="loading" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading user information...
+            </div>
+
+            <div id="error-message" class="error-message" style="display: none;"></div>
+            <div id="success-message" class="success-message" style="display: none;"></div>
+
+            <div id="user-info" style="display: none;">
+                <div class="info-section">
+                    <h2><i class="fas fa-user-circle"></i> Personal Information</h2>
+
+                    <div class="info-row">
+                        <span class="info-label">Full Name:</span>
+                        <span class="info-value" id="full-name">Loading...</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Username:</span>
+                        <span class="info-value" id="username">Loading...</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Contact:</span>
+                        <span class="info-value" id="contact">Loading...</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value" id="email">Loading...</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Password:</span>
+                        <div class="password-field">
+                            <span class="info-value" id="password">••••••••</span>
+                            <button class="password-toggle" onclick="togglePassword()">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <button class="edit-btn" onclick="showChangePassword()">
+                            <i class="fas fa-key"></i> Change
+                        </button>
+                    </div>
+                </div>
+
+                <div class="change-password-section" id="change-password-section">
+                    <h3><i class="fas fa-lock"></i> Change Password</h3>
+
+                    <div class="form-group">
+                        <label for="current-password">Current Password:</label>
+                        <input type="password" id="current-password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="new-password">New Password:</label>
+                        <input type="password" id="new-password" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm New Password:</label>
+                        <input type="password" id="confirm-password" required>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 1rem;">
+                        <button class="change-password-btn" onclick="changePassword()">
+                            <i class="fas fa-save"></i> Change Password
+                        </button>
+                        <button class="cancel-btn" onclick="hideChangePassword()">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="login-btn" onclick="login()">
+                        <i class="fas fa-sign-in-alt"></i> Login
+                    </button>
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        let currentUser = null;
+        let showPassword = false;
+
+        async function loadUserInfo() {
+            try {
+                const response = await fetch('/api/user/profile');
+                const data = await response.json();
+
+                if (response.ok) {
+                    currentUser = data.user;
+                    displayUserInfo(data.user);
+                } else {
+                    showError(data.error || 'Failed to load user information');
+                }
+            } catch (error) {
+                console.error('Error loading user info:', error);
+                showError('Failed to load user information. Please try again.');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function displayUserInfo(user) {
+            document.getElementById('full-name').textContent = user.full_name || 'Not provided';
+            document.getElementById('username').textContent = user.username;
+            document.getElementById('contact').textContent = `${user.contact_country_code || ''} ${user.contact_number || ''}`.trim() || 'Not provided';
+            document.getElementById('email').textContent = user.email;
+
+            document.getElementById('user-info').style.display = 'block';
+        }
+
+        function togglePassword() {
+            const passwordElement = document.getElementById('password');
+            const toggleBtn = document.querySelector('.password-toggle i');
+
+            if (showPassword) {
+                passwordElement.textContent = '••••••••';
+                toggleBtn.className = 'fas fa-eye';
+            } else {
+                passwordElement.textContent = 'Actual password hidden for security';
+                toggleBtn.className = 'fas fa-eye-slash';
+            }
+            showPassword = !showPassword;
+        }
+
+        function showChangePassword() {
+            document.getElementById('change-password-section').classList.add('show');
+        }
+
+        function hideChangePassword() {
+            document.getElementById('change-password-section').classList.remove('show');
+            // Clear form
+            document.getElementById('current-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-password').value = '';
+        }
+
+        async function changePassword() {
+            const currentPassword = document.getElementById('current-password').value;
+            const newPassword = document.getElementById('new-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (!currentPassword || !newPassword || !confirmPassword) {
+                showError('All password fields are required');
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                showError('New passwords do not match');
+                return;
+            }
+
+            if (newPassword.length < 6) {
+                showError('New password must be at least 6 characters long');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/user/change-password', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        current_password: currentPassword,
+                        new_password: newPassword
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showSuccess('Password changed successfully');
+                    hideChangePassword();
+                } else {
+                    showError(data.error || 'Failed to change password');
+                }
+            } catch (error) {
+                console.error('Error changing password:', error);
+                showError('Failed to change password. Please try again.');
+            }
+        }
+
+        function login() {
+            // Trigger browser's basic auth dialog by making a request that requires auth
+            window.location.href = '/api/files';
+        }
+
+        function logout() {
+            // Clear any stored credentials and redirect to login
+            if (confirm('Are you sure you want to logout?')) {
+                // This will trigger the browser to ask for credentials again
+                window.location.href = 'login.html';
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+            document.getElementById('success-message').style.display = 'none';
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.getElementById('success-message');
+            successDiv.textContent = message;
+            successDiv.style.display = 'block';
+            document.getElementById('error-message').style.display = 'none';
+        }
+
+        // Load user info when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserInfo();
+            
+            // Mobile navigation functionality
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            const searchToggle = document.querySelector('.search-toggle');
+            const searchBar = document.querySelector('.search-bar');
+
+            // Hamburger menu toggle
+            if (hamburger) {
+                hamburger.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                    // Close search bar when opening menu
+                    if (searchBar) {
+                        searchBar.classList.remove('active');
+                    }
+                });
+            }
+
+            // Search toggle for mobile
+            if (searchToggle) {
+                searchToggle.addEventListener('click', function() {
+                    if (searchBar) {
+                        searchBar.classList.toggle('active');
+                        // Close nav menu when opening search
+                        if (navMenu) {
+                            navMenu.classList.remove('active');
+                        }
+                    }
+                });
+            }
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.nav-container')) {
+                    if (navMenu) navMenu.classList.remove('active');
+                    if (searchBar) searchBar.classList.remove('active');
+                }
+            });
+
+            // Close mobile menu when clicking on a nav link
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (navMenu) navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

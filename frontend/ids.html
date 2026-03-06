@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSH Gallery - User IDs</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .ids-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .ids-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .ids-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--card-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .ids-table th,
+        .ids-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .ids-table th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .ids-table tr:hover {
+            background: var(--hover-bg);
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .status-approved {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .role-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .role-admin {
+            background: #e7f3ff;
+            color: #0066cc;
+        }
+
+        .role-manager {
+            background: #f0f8ff;
+            color: #008080;
+        }
+
+        .role-staff {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+        .role-client {
+            background: #fff8e1;
+            color: #f57c00;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-right: 5px;
+            transition: background-color 0.2s;
+        }
+
+        .approve-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .approve-btn:hover {
+            background: #218838;
+        }
+
+        .reject-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .reject-btn:hover {
+            background: #c82333;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-secondary);
+        }
+
+        .error-message {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            background: var(--secondary-color);
+            color: var(--text-primary);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            background: var(--hover-bg);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class=""><img src="assets/DSH Logo/D_S_H_001.2.2_2-.png" alt="Logo" height="40"></i>
+                <span>DSH Gallery</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="trash.html"><i class="fas fa-trash"></i> Trash</a></li>
+            </ul>
+            <div class="search-bar">
+                <input type="search" id="searchInput" placeholder="Search gallery...">
+            </div>
+            <div class="user-icon">
+                <i class="fas fa-user"></i> Admin
+            </div>
+            <div class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="ids-container">
+            <div class="ids-header">
+                <h1><i class="fas fa-users"></i> User Management</h1>
+                <a href="settings.html" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Settings
+                </a>
+            </div>
+
+            <div id="error-message" class="error-message" style="display: none;"></div>
+
+            <div id="loading" class="loading">
+                <i class="fas fa-spinner fa-spin"></i> Loading users...
+            </div>
+
+            <table id="users-table" class="ids-table" style="display: none;">
+                <thead id="table-head">
+                    <!-- Headers will be dynamically generated -->
+                </thead>
+                <tbody id="table-body">
+                    <!-- Rows will be dynamically generated -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        let currentUserRole = null;
+
+        async function loadUsers() {
+            try {
+                const response = await fetch('/api/users');
+                const data = await response.json();
+
+                if (!response.ok) {
+                    showError(data.error || 'Failed to load users');
+                    return;
+                }
+
+                const users = data.users;
+                if (users.length === 0) {
+                    showError('No users found');
+                    return;
+                }
+
+                // Determine current user's role from the first user or API response
+                // For now, we'll assume the role based on available fields
+                currentUserRole = determineRoleFromFields(users[0]);
+
+                renderTable(users);
+            } catch (error) {
+                console.error('Error loading users:', error);
+                showError('Failed to load users. Please try again.');
+            } finally {
+                document.getElementById('loading').style.display = 'none';
+            }
+        }
+
+        function determineRoleFromFields(user) {
+            if (user.hasOwnProperty('full_name')) return 1; // Admin
+            if (user.hasOwnProperty('status')) return 2; // Manager
+            if (user.hasOwnProperty('email')) return 3; // Staff
+            return 4; // Client
+        }
+
+        function renderTable(users) {
+            const table = document.getElementById('users-table');
+            const thead = document.getElementById('table-head');
+            const tbody = document.getElementById('table-body');
+
+            // Clear existing content
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
+
+            // Create headers based on available fields
+            const headers = [];
+            const firstUser = users[0];
+
+            if (firstUser.hasOwnProperty('full_name')) headers.push('Full Name');
+            headers.push('Username');
+            if (firstUser.hasOwnProperty('email')) headers.push('Email');
+            if (firstUser.hasOwnProperty('contact_country_code') && firstUser.hasOwnProperty('contact_number')) {
+                headers.push('Contact');
+            }
+            if (firstUser.hasOwnProperty('role')) headers.push('Role');
+            if (firstUser.hasOwnProperty('status')) headers.push('Status');
+            if (firstUser.hasOwnProperty('created_at')) headers.push('Created At');
+            if (currentUserRole <= 2) headers.push('Actions'); // Admin and Manager can approve/reject
+
+            // Create header row
+            const headerRow = document.createElement('tr');
+            headers.forEach(header => {
+                const th = document.createElement('th');
+                th.textContent = header;
+                headerRow.appendChild(th);
+            });
+            thead.appendChild(headerRow);
+
+            // Create data rows
+            users.forEach(user => {
+                const row = document.createElement('tr');
+
+                // Full Name (Admin only)
+                if (firstUser.hasOwnProperty('full_name')) {
+                    const td = document.createElement('td');
+                    td.textContent = user.full_name || '';
+                    row.appendChild(td);
+                }
+
+                // Username
+                const usernameTd = document.createElement('td');
+                usernameTd.textContent = user.username;
+                row.appendChild(usernameTd);
+
+                // Email
+                if (firstUser.hasOwnProperty('email')) {
+                    const emailTd = document.createElement('td');
+                    emailTd.textContent = user.email;
+                    row.appendChild(emailTd);
+                }
+
+                // Contact (Admin only)
+                if (firstUser.hasOwnProperty('contact_country_code') && firstUser.hasOwnProperty('contact_number')) {
+                    const contactTd = document.createElement('td');
+                    contactTd.textContent = `${user.contact_country_code || ''} ${user.contact_number || ''}`.trim();
+                    row.appendChild(contactTd);
+                }
+
+                // Role
+                if (firstUser.hasOwnProperty('role')) {
+                    const roleTd = document.createElement('td');
+                    const roleBadge = document.createElement('span');
+                    roleBadge.className = `role-badge role-${getRoleName(user.role).toLowerCase()}`;
+                    roleBadge.textContent = getRoleName(user.role);
+                    roleTd.appendChild(roleBadge);
+                    row.appendChild(roleTd);
+                }
+
+                // Status
+                if (firstUser.hasOwnProperty('status')) {
+                    const statusTd = document.createElement('td');
+                    const statusBadge = document.createElement('span');
+                    statusBadge.className = `status-badge status-${user.status}`;
+                    statusBadge.textContent = user.status.charAt(0).toUpperCase() + user.status.slice(1);
+                    statusTd.appendChild(statusBadge);
+                    row.appendChild(statusTd);
+                }
+
+                // Created At (Admin only)
+                if (firstUser.hasOwnProperty('created_at')) {
+                    const createdTd = document.createElement('td');
+                    createdTd.textContent = new Date(user.created_at).toLocaleDateString();
+                    row.appendChild(createdTd);
+                }
+
+                // Actions (Admin and Manager only)
+                if (currentUserRole <= 2) {
+                    const actionsTd = document.createElement('td');
+                    if (user.status === 'pending') {
+                        const approveBtn = document.createElement('button');
+                        approveBtn.className = 'action-btn approve-btn';
+                        approveBtn.textContent = 'Approve';
+                        approveBtn.onclick = () => approveUser(user.id);
+                        actionsTd.appendChild(approveBtn);
+
+                        const rejectBtn = document.createElement('button');
+                        rejectBtn.className = 'action-btn reject-btn';
+                        rejectBtn.textContent = 'Reject';
+                        rejectBtn.onclick = () => rejectUser(user.id);
+                        actionsTd.appendChild(rejectBtn);
+                    } else {
+                        actionsTd.textContent = '-';
+                    }
+                    row.appendChild(actionsTd);
+                }
+
+                tbody.appendChild(row);
+            });
+
+            table.style.display = 'table';
+        }
+
+        function getRoleName(roleId) {
+            const roles = {
+                1: 'Admin',
+                2: 'Manager',
+                3: 'Staff',
+                4: 'Client'
+            };
+            return roles[roleId] || 'Unknown';
+        }
+
+        async function approveUser(userId) {
+            if (!confirm('Are you sure you want to approve this user?')) return;
+
+            try {
+                const response = await fetch(`/api/users/${userId}/approve`, {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast('User approved successfully');
+                    loadUsers(); // Reload the table
+                } else {
+                    showToast(data.error || 'Failed to approve user', 'error');
+                }
+            } catch (error) {
+                console.error('Error approving user:', error);
+                showToast('Failed to approve user', 'error');
+            }
+        }
+
+        async function rejectUser(userId) {
+            if (!confirm('Are you sure you want to reject this user?')) return;
+
+            try {
+                const response = await fetch(`/api/users/${userId}/reject`, {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    showToast('User rejected successfully');
+                    loadUsers(); // Reload the table
+                } else {
+                    showToast(data.error || 'Failed to reject user', 'error');
+                }
+            } catch (error) {
+                console.error('Error rejecting user:', error);
+                showToast('Failed to reject user', 'error');
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function showToast(message, type = 'success') {
+            // Use the existing toast function from main.js if available
+            if (window.showToast) {
+                window.showToast(message, type);
+            } else {
+                alert(message);
+            }
+        }
+
+        // Load users when page loads
+        document.addEventListener('DOMContentLoaded', loadUsers);
+    </script>
+</body>
+</html>
