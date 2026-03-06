@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSH Gallery - Media Gallery</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="logo">
+                <i class=""><img src="assets/DSH Logo/D_S_H_001.2.2_2-.png" alt="Logo" height="40"></i>
+                <span>DSH Gallery</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="gallery.html" class="active"><i class="fas fa-images"></i> Gallery</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="trash.html"><i class="fas fa-trash"></i> Trash</a></li>
+                <li><a href="id-info.html"><i class="fas fa-id-card"></i> ID Info</a></li>
+            </ul>
+            <div class="user-icon">
+                <i class="fas fa-user"></i> Admin
+            </div>
+            <div class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="gallery-header">
+            <h1>Media Gallery</h1>
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="images">Images</button>
+                <button class="filter-btn" data-filter="videos">Videos</button>
+                <button class="filter-btn" data-filter="audio">Audio</button>
+                <button class="filter-btn" data-filter="documents">Documents</button>
+            </div>
+        </div>
+
+        <div class="gallery-container" id="galleryContainer">
+            <!-- Images Section -->
+            <section class="media-section" id="imagesSection">
+                <h2><i class="fas fa-image"></i> Images</h2>
+                <div class="media-grid images-grid"></div>
+            </section>
+
+            <!-- Videos Section -->
+            <section class="media-section" id="videosSection">
+                <h2><i class="fas fa-video"></i> Videos</h2>
+                <div class="media-grid videos-grid"></div>
+            </section>
+
+            <!-- Audio Section -->
+            <section class="media-section" id="audioSection">
+                <h2><i class="fas fa-music"></i> Audio</h2>
+                <div class="media-grid audio-grid"></div>
+            </section>
+
+            <!-- Documents Section -->
+            <section class="media-section" id="documentsSection">
+                <h2><i class="fas fa-file-alt"></i> Documents</h2>
+                <div class="media-grid documents-grid"></div>
+            </section>
+        </div>
+
+        <!-- Upload Section -->
+        <div class="upload-section">
+            <form id="uploadForm" enctype="multipart/form-data">
+                <input type="file" id="fileInput" multiple accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt">
+                <button type="submit" class="upload-btn">
+                    <i class="fas fa-upload"></i> Upload Files
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/gallery.js"></script>
+    <script>
+        // Mobile navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            // Hamburger menu toggle
+            if (hamburger) {
+                hamburger.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+            }
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.nav-container')) {
+                    if (navMenu) navMenu.classList.remove('active');
+                }
+            });
+
+            // Close mobile menu when clicking on a nav link
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (navMenu) navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

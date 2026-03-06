@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSH Gallery - Settings</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="logo">
+                <i class=""><img src="assets/DSH Logo/D_S_H_001.2.2_2-.png" alt="Logo" height="40"></i>
+                <span>DSH Gallery</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="settings.html" class="active"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="trash.html"><i class="fas fa-trash"></i> Trash</a></li>
+                <li><a href="id-info.html"><i class="fas fa-id-card"></i> ID Info</a></li>
+            </ul>
+            <div class="user-icon">
+                <i class="fas fa-user"></i> Admin
+            </div>
+            <div class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="settings-container">
+            <h1><i class="fas fa-cog"></i> Settings</h1>
+
+            <!-- Theme Settings -->
+            <div class="settings-section">
+                <h2><i class="fas fa-palette"></i> Theme</h2>
+                <div class="theme-options">
+                    <button class="theme-btn" data-theme="light">
+                        <i class="fas fa-sun"></i> Light
+                    </button>
+                    <button class="theme-btn" data-theme="dark">
+                        <i class="fas fa-moon"></i> Dark
+                    </button>
+                </div>
+            </div>
+
+            <!-- Backup Settings -->
+            <div class="settings-section">
+                <h2><i class="fas fa-database"></i> Backup & Restore</h2>
+                <div class="backup-options">
+                    <button class="action-btn" onclick="backupData()">
+                        <i class="fas fa-save"></i> Backup Data
+                    </button>
+                    <button class="action-btn" onclick="restoreData()">
+                        <i class="fas fa-undo"></i> Restore Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- IDs Settings -->
+            <div class="settings-section">
+                <h2><i class="fas fa-users"></i> User Management</h2>
+                <div class="id-options">
+                    <button class="action-btn" onclick="openIDsPage()">
+                        <i class="fas fa-id-card"></i> Manage IDs
+                    </button>
+                    <p class="info-text">View and manage user accounts and permissions</p>
+                </div>
+            </div>
+
+            <!-- Help Section -->
+            <div class="settings-section">
+                <h2><i class="fas fa-question-circle"></i> Help & Support</h2>
+                <div class="help-options">
+                    <button class="whatsapp-btn" onclick="openWhatsApp('help')">
+                        <i class="fab fa-whatsapp"></i> Get Help for DSH Gallery
+                    </button>
+                    <button class="whatsapp-btn" onclick="openWhatsApp('error')">
+                        <i class="fab fa-whatsapp"></i> Error and Problem
+                    </button>
+                    <button class="whatsapp-btn" onclick="openWhatsApp('backup')">
+                        <i class="fab fa-whatsapp"></i> How to get Backup my Data
+                    </button>
+                </div>
+            </div>
+
+            <!-- Trash Settings -->
+            <div class="settings-section">
+                <h2><i class="fas fa-trash"></i> Trash Management</h2>
+                <div class="trash-options">
+                    <button class="action-btn" onclick="emptyTrash()">
+                        <i class="fas fa-trash-alt"></i> Empty Trash
+                    </button>
+                    <p class="info-text">Files in trash are stored in backup for 30 days</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script src="js/settings.js"></script>
+    <script>
+        // Mobile navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            // Hamburger menu toggle
+            if (hamburger) {
+                hamburger.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+            }
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.nav-container')) {
+                    if (navMenu) navMenu.classList.remove('active');
+                }
+            });
+
+            // Close mobile menu when clicking on a nav link
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (navMenu) navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

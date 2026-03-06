@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSH Gallery - About</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="logo">
+                <i class=""><img src="assets/DSH Logo/D_S_H_001.2.2_2-.png" alt="Logo" height="40"></i>
+                <span>DSH Gallery</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li>
+                <li><a href="about.html" class="active"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="trash.html"><i class="fas fa-trash"></i> Trash</a></li>
+                <li><a href="id-info.html"><i class="fas fa-id-card"></i> ID Info</a></li>
+            </ul>
+            <div class="user-icon">
+                <i class="fas fa-user"></i> Admin
+            </div>
+            <div class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="about-container">
+            <div class="about-header">
+                <i class="fas fa-images about-icon"></i>
+                <h1>About DSH Gallery</h1>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-card">
+                    <h2><i class="fas fa-info-circle"></i> Introduction</h2>
+                    <p>DSH Gallery is a comprehensive media management solution designed to handle all types of files including images, videos, audio files, and documents. Our platform provides a seamless experience for organizing, viewing, and managing your digital assets.</p>
+                </div>
+
+                <div class="about-card">
+                    <h2><i class="fas fa-star"></i> Features</h2>
+                    <ul class="features-list">
+                        <li><i class="fas fa-check"></i> Support for all image formats (JPG, PNG, GIF, BMP, WEBP)</li>
+                        <li><i class="fas fa-check"></i> All video formats supported (MP4, AVI, MOV, MKV)</li>
+                        <li><i class="fas fa-check"></i> Complete audio file compatibility (MP3, WAV, OGG, FLAC)</li>
+                        <li><i class="fas fa-check"></i> Document viewer for PDF, DOC, XLS, and more</li>
+                        <li><i class="fas fa-check"></i> Dark/Light theme support</li>
+                        <li><i class="fas fa-check"></i> Automatic backup and restore functionality</li>
+                        <li><i class="fas fa-check"></i> Trash management system</li>
+                        <li><i class="fas fa-check"></i> WhatsApp integration for instant support</li>
+                    </ul>
+                </div>
+
+                <div class="about-card">
+                    <h2><i class="fas fa-phone-alt"></i> Contact Support</h2>
+                    <p><i class="fab fa-whatsapp"></i> WhatsApp: +923306596115</p>
+                    <button class="whatsapp-btn" onclick="openWhatsApp('help')">
+                        <i class="fab fa-whatsapp"></i> Contact on WhatsApp
+                    </button>
+                </div>
+
+                <div class="about-card">
+                    <h2><i class="fas fa-database"></i> Data Management</h2>
+                    <p>Your data is automatically backed up and can be restored at any time. The trash system ensures you never permanently lose important files.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Mobile navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            // Hamburger menu toggle
+            if (hamburger) {
+                hamburger.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+            }
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.nav-container')) {
+                    if (navMenu) navMenu.classList.remove('active');
+                }
+            });
+
+            // Close mobile menu when clicking on a nav link
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (navMenu) navMenu.classList.remove('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
