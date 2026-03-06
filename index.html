@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSH Gallery - Home</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+            <div class="logo">
+                <i class=""><img src="assets/DSH Logo/D_S_H_001.2.2_2-.png" alt="Logo" height="40"></i>
+                <span>DSH Gallery</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="gallery.html"><i class="fas fa-images"></i> Gallery</a></li>
+                <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+                <li><a href="settings.html"><i class="fas fa-cog"></i> Settings</a></li>
+                <li><a href="trash.html"><i class="fas fa-trash"></i> Trash</a></li>
+                <li><a href="id-info.html"><i class="fas fa-id-card"></i> ID Info</a></li>
+            </ul>
+            <div class="user-icon">
+                <i class="fas fa-user"></i> Admin
+            </div>
+            <div class="theme-toggle">
+                <i class="fas fa-moon"></i>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <section class="hero">
+            <h1>Welcome to DSH Gallery</h1>
+            <p>Your Complete Media Management Solution</p>
+        </section>
+
+        <!-- Three Dot Section -->
+        <section class="three-dot-section">
+            <div class="dot-container">
+                <div class="dot-card">
+                    <div class="dot-icon">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h3>Images</h3>
+                    <p>All image formats supported: JPG, PNG, GIF, BMP, WEBP</p>
+                    <span class="dot-count" id="imageCount">0</span>
+                </div>
+                <div class="dot-card">
+                    <div class="dot-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Videos</h3>
+                    <p>All video formats: MP4, AVI, MOV, MKV, WEBM</p>
+                    <span class="dot-count" id="videoCount">0</span>
+                </div>
+                <div class="dot-card">
+                    <div class="dot-icon">
+                        <i class="fas fa-music"></i>
+                    </div>
+                    <h3>Audio</h3>
+                    <p>All audio formats: MP3, WAV, OGG, M4A, FLAC</p>
+                    <span class="dot-count" id="audioCount">0</span>
+                </div>
+                <div class="dot-card">
+                    <div class="dot-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Documents</h3>
+                    <p>PDF, DOC, DOCX, XLS, PPT, TXT</p>
+                    <span class="dot-count" id="documentCount">0</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quick Actions -->
+        <section class="quick-actions">
+            <button class="whatsapp-btn" onclick="openWhatsApp('help')">
+                <i class="fab fa-whatsapp"></i> Get Help
+            </button>
+        </section>
+    </main>
+
+    <div class="welcome-message" id="welcomeMessage" style="display: none;">
+        WELCOME to DSH Gallery
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Mobile navigation functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            // Hamburger menu toggle
+            if (hamburger) {
+                hamburger.addEventListener('click', function() {
+                    navMenu.classList.toggle('active');
+                });
+            }
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.nav-container')) {
+                    if (navMenu) navMenu.classList.remove('active');
+                }
+            });
+
+            // Close mobile menu when clicking on a nav link
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (navMenu) navMenu.classList.remove('active');
+                });
+            });
+        });
+
+        // Check for welcome flag
+        if (localStorage.getItem('showWelcome')) {
+            localStorage.removeItem('showWelcome');
+            const welcome = document.getElementById('welcomeMessage');
+            welcome.style.display = 'block';
+            setTimeout(() => {
+                welcome.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
